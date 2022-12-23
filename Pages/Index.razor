@@ -1,0 +1,36 @@
+@page "/"
+
+<PageTitle>Index</PageTitle>
+<RadzenContent Container="main">
+    
+    <div class="row">
+        <div class="col-md">
+            <AuthorizeView>
+                <Authorized>
+                    <h1>Hello, @_state.User.Identity.Name</h1>
+                    <Profile/>
+                </Authorized>
+                <NotAuthorized>
+                    <RadzenCard>
+                        <RadzenHeading Size="H1" Text="Hello, Guest" />
+                        <Login />
+                    </RadzenCard>
+                </NotAuthorized>
+            </AuthorizeView>
+            
+        </div>
+    </div>
+
+</RadzenContent>
+@code
+{
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; }
+
+    public AuthenticationState _state;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _state = await AuthState;
+    }
+}

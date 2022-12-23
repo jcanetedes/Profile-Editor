@@ -1,0 +1,52 @@
+﻿@inject ILoginService _loginService;
+@inject AuthenticationStateProvider _authStore;
+@inject IProfileService _profileService;
+
+@inject NotificationService _notificationService
+@inject NavigationManager _navigationManager
+
+<h3>Login</h3>
+
+<RadzenLogin AllowRegister="false"
+             AllowResetPassword="false" Login="OnLogin" Username="@LoginInfo.Username" Password="@LoginInfo.Password">
+
+</RadzenLogin>
+@code
+{
+
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; }
+
+    public LoginDto LoginInfo { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthState;
+
+        if (state.User.Identity.IsAuthenticated)
+            _navigationManager.NavigateTo("/", true);
+
+    }
+
+    public async Task OnLogin(LoginArgs args)
+    {
+        try
+        {
+            LoginInfo = new() { Username = args.Username, Password = args.Password };
+
+            var token = await _loginService.LoginAsync(LoginInfo);
+
+            var _auth =  (AuthStore)_authStore;
+
+            await _auth.SetToken(token);
+
+            _navigationManager.NavigateTo("/", true);
+        }
+        catch (Exception ex)
+        {
+            _notificationService.Notify(NotificationUtils.GetErrorNotification(ex.Message));
+        }
+
+    }
+
+}

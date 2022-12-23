@@ -1,0 +1,144 @@
+﻿@inject AuthenticationStateProvider _authStore;
+@inject IProfileService _profileService;
+
+@inject NotificationService _notificationService
+@inject NavigationManager _navigationManager
+@inject DialogService _dialogService
+
+<h3>Profile</h3>
+@if (_profileDto is null)
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+else
+{
+    <div class="row">
+        <div class="col-md-5">
+            <RadzenCard>
+                <RadzenTemplateForm TItem="ProfileDto" Data="_profileDto" Submit="@OnSaveAsync">
+                    <ChildContent>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="First Name" Component="FirstName" />
+                                    <RadzenTextBox Name="FirstName" Disabled @bind-Value="_profileDto.FirstName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="FirstName" Text="First Name is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Last Name" Component="LastName" />
+                                    <RadzenTextBox Name="LastName" Disabled @bind-Value="_profileDto.LastName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="LastName" Text="Lastname is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Birth Date" Component="BirthDate" />
+                                    <RadzenDatePicker Name="BirthDate" Disabled @bind-Value="_profileDto.DateOfBirth" Class="w-100" />
+                                    <RadzenRequiredValidator Component="BirthDate" Text="Birth Date is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Email" Component="Email" />
+                                    <RadzenTextBox Name="Email" Disabled @bind-Value="_profileDto.Email" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="Email" Text="Email is required" />
+                                    <RadzenEmailValidator Component="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Company Name" Component="CompanyName" />
+                                    <RadzenTextBox Name="CompanyName" Disabled @bind-Value="_profileDto.CompanyName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="CompanyName" Text="Company Name is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Mobile No" Component="MobileNo" />
+                                    <RadzenTextBox Name="MobileNo" Disabled @bind-Value="_profileDto.MobilePhone.PhoneNumber" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="MobileNo" Text="Mobile No is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Phone No" Component="PhoneNo" />
+                                    <RadzenTextBox Name="PhoneNo" Disabled @bind-Value="_profileDto.Phone.PhoneNumber" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="PhoneNo" Text="Phone No is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <RadzenButton ButtonType="ButtonType.Submit" Text="Edit" ButtonStyle="ButtonStyle.Success" class="float-right" />
+                            </div>
+                        </div>
+                    </ChildContent>
+                </RadzenTemplateForm>
+            </RadzenCard>
+        </div>
+    </div>
+}
+
+@code
+{
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; }
+
+    public ProfileDto _profileDto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProfileAsync();
+
+    }
+    public async Task LoadProfileAsync()
+    {
+        try
+        {
+            var state = await AuthState;
+
+            var _auth = (AuthStore)_authStore;
+
+            var bearer = await _auth.GetBearerToken();
+
+            _profileDto = await _profileService.GetProfile($"Bearer {bearer}");
+
+        }
+        catch (Exception ex)
+        {
+            _notificationService.Notify(NotificationUtils.GetErrorNotification(ex.Message));
+        }
+
+    }
+
+    public async Task OnSaveAsync()
+    {
+        var parameters = new Dictionary<string, object>
+        {
+
+        };
+
+        var dialogOptions = new DialogOptions { Width = "50%", Height = "auto", ShowTitle = false };
+
+        bool? reload = await _dialogService.OpenAsync<ProfileEdit>("", parameters, dialogOptions);
+
+        if (reload.HasValue && reload.Value)
+        {
+            await LoadProfileAsync();
+        }
+    }
+}

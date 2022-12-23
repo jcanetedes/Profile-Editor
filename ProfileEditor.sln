@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 16.0.0.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProfileEditor", "ProfileEditor.csproj", "{B8D49B97-B5AC-4706-877A-BE11E952A09A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|x64.Build.0 = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Debug|x86.Build.0 = Debug|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|x64.ActiveCfg = Release|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|x64.Build.0 = Release|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B8D49B97-B5AC-4706-877A-BE11E952A09A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {69D7538E-AC48-4C43-9B09-069BDEEC92A3}
+	EndGlobalSection
+EndGlobal

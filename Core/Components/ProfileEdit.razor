@@ -1,0 +1,213 @@
+﻿@inject AuthenticationStateProvider _authStore
+@inject IProfileService _profileService
+@inject DialogService _dialogService
+@inject NotificationService _notificationService
+@inject NavigationManager _navigationManager
+
+<h3>Edit Profile</h3>
+@if (_profileDto is null)
+{
+    <RadzenProgressBar ProgressBarStyle="ProgressBarStyle.Primary" Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+}
+else
+{
+    <div class="row">
+        <div class="col-md">
+            <RadzenCard>
+                <RadzenTemplateForm TItem="ProfileEditDto" Data="_profileDto" Submit="@OnSaveAsync">
+                    <ChildContent>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="First Name" Component="FirstName" />
+                                    <RadzenTextBox Name="FirstName" @bind-Value="_profileDto.FirstName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="FirstName" Text="First Name is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Last Name" Component="LastName" />
+                                    <RadzenTextBox Name="LastName" @bind-Value="_profileDto.LastName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="LastName" Text="Lastname is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Address" Component="Address" />
+                                    <RadzenTextBox Name="Address" @bind-Value="_profileDto.Address" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="Address" Text="Address is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Address 2" Component="Address2" />
+                                    <RadzenTextBox Name="Address2" @bind-Value="_profileDto.Address1" MaxLength="255" Class="w-100" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <RadzenLabel Text="City" Component="City" />
+                                    <RadzenTextBox Name="City" @bind-Value="_profileDto.City" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="City" Text="City is required" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Postal Code" Component="PostalCode" />
+                                    <RadzenTextBox Name="PostalCode" @bind-Value="_profileDto.PostalCode" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="PostalCode" Text="Postal Code is required" />
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Country Code" Component="CountryCode" />
+                                    <RadzenTextBox Name="CountryCode" @bind-Value="_profileDto.PostalCode" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="CountryCode" Text="Country Code is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Region" Component="Region" />
+                                    <RadzenTextBox Name="Region" @bind-Value="_profileDto.Region" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="Region" Text="Region is required" />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Email" Component="Email" />
+                                    <RadzenTextBox Name="Email" @bind-Value="_profileDto.Email" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="Email" Text="Email is required" />
+                                    <RadzenEmailValidator Component="Email" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Birth Date" Component="BirthDate" />
+                                    <RadzenDatePicker Name="BirthDate" @bind-Value="_profileDto.DateOfBirth" Class="w-100" />
+                                    <RadzenRequiredValidator Component="BirthDate" Text="Birth Date is required" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Company Name" Component="CompanyName" />
+                                    <RadzenTextBox Name="CompanyName" @bind-Value="_profileDto.CompanyName" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="CompanyName" Text="Company Name is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Mobile No" Component="MobileNo" />
+                                    <RadzenTextBox Name="MobileNo" @bind-Value="_profileDto.MobilePhone.PhoneNumber" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="MobileNo" Text="Mobile No is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <RadzenLabel Text="Phone No" Component="PhoneNo" />
+                                    <RadzenTextBox Name="PhoneNo" @bind-Value="_profileDto.Phone.PhoneNumber" MaxLength="255" Class="w-100" />
+                                    <RadzenRequiredValidator Component="PhoneNo" Text="Phone No is required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+
+                                <RadzenButton ButtonStyle="ButtonStyle.Light" Text="Cancel" Click="@(() => _dialogService.Close(false))" class="float-right" />
+                                <RadzenButton ButtonType="ButtonType.Submit" Text="Update" ButtonStyle="ButtonStyle.Warning" class="float-right mr-1" />
+                            </div>
+                        </div>
+                    </ChildContent>
+                </RadzenTemplateForm>
+            </RadzenCard>
+        </div>
+    </div>
+}
+@code
+{
+    [CascadingParameter]
+    protected Task<AuthenticationState> AuthState { get; set; }
+
+    public ProfileEditDto _profileDto;
+    public string _token;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProfileAsync();
+
+    }
+    public async Task LoadProfileAsync()
+    {
+        try
+        {
+            var state = await AuthState;
+
+            var _auth = (AuthStore)_authStore;
+
+            _token = await _auth.GetBearerToken();
+
+            var _completeProfile = await _profileService.GetProfile($"Bearer {_token}");
+
+            var _defaultAddress = _completeProfile.Addresses.FirstOrDefault();
+
+            _profileDto = new()
+                {
+                    FirstName = _completeProfile.FirstName,
+                    LastName = _completeProfile.LastName,
+                    CompanyName = _completeProfile.CompanyName,
+                    Email = _completeProfile.Email,
+                    Address = _defaultAddress.Address,
+                    Address1 = _defaultAddress.Address2,
+                    City = _defaultAddress.City,
+                    CountryCode = _defaultAddress.CountryCode,
+                    PostalCode = _defaultAddress.PostalCode,
+                    DateOfBirth = _completeProfile.DateOfBirth,
+                    Phone = _completeProfile.Phone,
+                    MobilePhone = _completeProfile.MobilePhone,
+                    Region = _defaultAddress.Region
+                };
+
+        }
+        catch (Exception ex)
+        {
+            _notificationService.Notify(NotificationUtils.GetErrorNotification(ex.Message));
+        }
+
+    }
+
+    public async Task OnSaveAsync()
+    {
+        try
+        {
+            var result = await _profileService.UpdateProfile(_profileDto, $"Bearer {_token}");
+
+            _notificationService.Notify(NotificationUtils.GetSuccessNotification("Profile Successfully Updated!"));
+
+            _dialogService.Close(true);
+        }
+        catch (Exception ex)
+        {
+
+            _notificationService.Notify(NotificationUtils.GetErrorNotification(ex.Message));
+        }
+    }
+}
