@@ -15,7 +15,7 @@ else
     <div class="row">
         <div class="col-md-5">
             <RadzenCard>
-                <RadzenTemplateForm TItem="ProfileDto" Data="_profileDto" Submit="@OnSaveAsync">
+                <RadzenTemplateForm TItem="ProfileDto" Data="_profileDto" Submit="@OnEditAsync">
                     <ChildContent>
                         <div class="row">
                             <div class="col-12">
@@ -125,7 +125,7 @@ else
 
     }
 
-    public async Task OnSaveAsync()
+    public async Task OnEditAsync()
     {
         var parameters = new Dictionary<string, object>
         {
